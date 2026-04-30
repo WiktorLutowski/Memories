@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private int seconds = 0;
     private boolean running = false;
     private int[] imageIds = new int[12];
-    private int[] drawables;
+    int[] currentImageIds = new int[12];
+    int[] currentImageTags = new int[12];
     private TextView timerTV;
     private Button startButton;
 
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
             imageViews[i].setImageResource(R.drawable.znaczek);
             imageViews[i].setTag(-1);
+            currentImageTags[i] = -1;
+            currentImageIds[i] = R.drawable.znaczek;
 
             int finalI = i;
             imageViews[finalI].setOnClickListener(v -> {
@@ -82,9 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
                 if(toReset1 != -1) {
                     imageViews[toReset1].setImageResource(R.drawable.znaczek);
+                    currentImageIds[toReset1] = R.drawable.znaczek;
                     imageViews[toReset2].setImageResource(R.drawable.znaczek);
+                    currentImageIds[toReset2] = R.drawable.znaczek;
                     imageViews[toReset2].setTag(-1);
+                    currentImageTags[toReset2] = -1;
                     imageViews[toReset1].setTag(-1);
+                    currentImageTags[toReset1] = -1;
 
                     toReset1 = -1;
                     toReset2 = -1;
@@ -94,26 +101,33 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case 1:
                         imageViews[finalI].setImageResource(R.drawable.auto1);
+                        currentImageIds[finalI] = R.drawable.auto1;
                         break;
                     case 2:
                         imageViews[finalI].setImageResource(R.drawable.auto2);
+                        currentImageIds[finalI] = R.drawable.auto2;
                         break;
                     case 3:
                         imageViews[finalI].setImageResource(R.drawable.auto3);
+                        currentImageIds[finalI] = R.drawable.auto3;
                         break;
                     case 4:
                         imageViews[finalI].setImageResource(R.drawable.auto4);
+                        currentImageIds[finalI] = R.drawable.auto4;
                         break;
                     case 5:
                         imageViews[finalI].setImageResource(R.drawable.auto5);
+                        currentImageIds[finalI] = R.drawable.auto5;
                         break;
                     case 6:
                         imageViews[finalI].setImageResource(R.drawable.auto6);
+                        currentImageIds[finalI] = R.drawable.auto5;
                         break;
                 }
 
 
                 imageViews[finalI].setTag(1);
+                currentImageTags[finalI] = 1;
 
                 if(selectedIndex == -1) {
                     selectedIndexImage = finalI;
@@ -181,6 +195,13 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("seconds", seconds);
         outState.putBoolean("running", running);
+        outState.putInt("selectedIndex", selectedIndex);
+        outState.putInt("selectedIndexImage", selectedIndexImage);
+        outState.putInt("toReset1", toReset1);
+        outState.putInt("toReset2", toReset2);
+        outState.putIntArray("imageIds", imageIds);
+        outState.putIntArray("currentImageIds", currentImageIds);
+        outState.putIntArray("currentImageTags", currentImageTags);
     }
 
     @Override
@@ -188,5 +209,22 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         seconds = savedInstanceState.getInt("seconds");
         running = savedInstanceState.getBoolean("running");
+        selectedIndex = savedInstanceState.getInt("selectedIndex");
+        selectedIndexImage = savedInstanceState.getInt("selectedIndexImage");
+        toReset1 = savedInstanceState.getInt("toReset1");
+        toReset2 = savedInstanceState.getInt("toReset2");
+        imageIds = savedInstanceState.getIntArray("imageIds");
+        currentImageIds = savedInstanceState.getIntArray("currentImageIds");
+        currentImageTags = savedInstanceState.getIntArray("currentImageTags");
+
+        for (int i = 0; i < currentImageIds.length; i++)
+        {
+            imageViews[i].setImageResource(currentImageIds[i]);
+        }
+
+        for (int i = 0; i < currentImageTags.length; i++)
+        {
+            imageViews[i].setTag(currentImageTags[i]);
+        }
     }
     }
