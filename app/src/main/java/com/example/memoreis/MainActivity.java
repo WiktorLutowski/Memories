@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     int[] currentImageTags = new int[12];
     private TextView timerTV;
     private Button startButton;
+    private Button resetButton;
 
     private int selectedIndex = -1;
     private int selectedIndexImage = -1;
@@ -56,8 +57,49 @@ public class MainActivity extends AppCompatActivity {
 
 
         startButton = findViewById(R.id.startButton);
+        resetButton = findViewById(R.id.resetButton);
         timerTV = findViewById(R.id.timerTV);
         runTimer();
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seconds = 0;
+                running = false;
+                selectedIndex = -1;
+
+                selectedIndexImage = -1;
+
+                toReset2 = -1;
+                toReset1 = -1;
+
+                List<Integer> numbers = new ArrayList<>();
+                for (int i = 1; i <= 6; i++) {
+                    numbers.add(i);
+                    numbers.add(i);
+                }
+
+                Collections.shuffle(numbers);
+
+                for (int i = 0; i < numbers.size(); i++) {
+                    imageIds[i] = numbers.get(i);
+                }
+
+                for (int i = 0; i < 12; i++) {
+                    String imageID = "image" + (i + 1);
+                    int resID = getResources().getIdentifier(imageID, "id", getPackageName());
+
+                    imageViews[i] = findViewById(resID);
+
+                    imageViews[i].setImageResource(R.drawable.znaczek);
+                    imageViews[i].setTag(-1);
+                    currentImageTags[i] = -1;
+                    currentImageIds[i] = R.drawable.znaczek;
+                }
+
+
+            }
+        });
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 6:
                         imageViews[finalI].setImageResource(R.drawable.auto6);
-                        currentImageIds[finalI] = R.drawable.auto5;
+                        currentImageIds[finalI] = R.drawable.auto6;
                         break;
                 }
 
