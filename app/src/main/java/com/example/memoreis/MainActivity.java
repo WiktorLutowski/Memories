@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
 
             int finalI = i;
             imageViews[finalI].setOnClickListener(v -> {
+                if(running == false)
+                    running = true;
 
                 if(!running || selectedIndexImage == finalI)
                     return;
